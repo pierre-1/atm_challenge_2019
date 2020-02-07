@@ -10,12 +10,6 @@ class Person
         @name = set_name(attrs[:name])
         @cash = 0
         @account = nil
-        
-        #@balance = 1000
-        #@account_status = :active
-        #@owner = set_owner(attrs[:owner])
-        #@pin_code = set_pin_code()
-        #@exp_date = set_expire_date()
     end
 
     def create_account
@@ -60,5 +54,5 @@ class Person
     def missing_atm
         raise RuntimeError, 'An ATM is required'
       end
-      
+
 end
