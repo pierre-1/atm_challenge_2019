@@ -5,7 +5,6 @@ require './lib/atm'
 class Person
     attr_accessor :name, :cash, :account
 
-
     def initialize(attrs = {})
         @name = set_name(attrs[:name])
         @cash = 0
@@ -27,8 +26,14 @@ class Person
         else raise "No account present"
         end
     end  
+    
+    def withdraw(args = {})
+        @account == nil ? missing_account : withdraw_funds(args)
+    end
 
-    def withdraw(args)
+    private 
+    
+    def withdraw_funds(args)
         args[:atm] == nil ? missing_atm : atm = args[:atm]
         account = @account
         amount = args[:amount]
@@ -36,8 +41,6 @@ class Person
         response = atm.withdraw(amount, pin, account)
         response[:status] == true ? increase_cash(response) : response
     end
-
-    private 
 
     def set_name(name)
         name == nil ? missing_name : name
@@ -48,11 +51,15 @@ class Person
     end
 
     def missing_name
-        raise "A name is required"
+        raise ArgumentError, 'A name is required'
+    end
+
+    def missing_account
+        raise RuntimeError, 'No account present'
     end
 
     def missing_atm
         raise RuntimeError, 'An ATM is required'
-      end
+    end
 
 end
